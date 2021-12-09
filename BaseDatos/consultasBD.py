@@ -2,35 +2,24 @@ import sqlite3
 from sqlite3 import Error
 import pandas as pd
 
-def connectDB(db_file):
+def connectDB():
     conn = None
     try:
-        conn = sqlite3.connect(db_file)
+        conn = sqlite3.connect('C:/Users/Marc F/PycharmProjects/flaskWS/BaseDatos/academiaBD')
     except Error as e:
         print(e)
 
     return conn
 
+def closeBD(conn):
+    if conn:
+        conn.close()
 
-def selectalumnes(conn):
+def seleccionarmensajes(conn, profesor):
+    query = "SELECT mensaje FROM mensajes m WHERE profesor = ?"
     c = conn.cursor()
-    c.execute('''
-          SELECT
-          *
-          FROM alumnes a
-          ''')
-    df = pd.DataFrame(c.fetchall(), columns=['nombre','edad', 'pago_hecho', 'tutor_legal', 'id_grupo'])
-    return df
+    tofilter = []
+    tofilter.append(profesor)
+    result = c.execute(query, tofilter).fetchall()
+    return result
 
-
-
-#conexion de prueba
-#conn = sqlite3.connect('academiaBD')
-#c = conn.cursor()
-#c.execute('''
-#          SELECT
-#          *
-#          FROM alumnos a
-#          ''')
-#df = pd.DataFrame(c.fetchall(), columns=['nombre','edad', 'pago_hecho', 'tutor_legal', 'id_grupo'])
-#print (df)
