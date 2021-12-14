@@ -38,35 +38,7 @@ def menu_profesores():
 def menu_administrador():
     return
 
-
-@app.route('/admin/new_alumno', methods=['POST'])
-def new_alumno():
-    conn = consultasBD.connectDB()
-    nombre = request.form["nombre"]
-    edad = str(request.form["edad"])
-    pago_hecho = str(request.form["pago_hecho"])
-    tutor_legal = request.form["tutor_legal"]
-    id_grupo = str(request.form["id_grupo"])
-
-    try:
-        consultasBD.inserta_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
-        return '''<h1>Success!</h1>'''
-    except:
-        return '''<h1>Fail!</h1>'''
-
-@app.route('/admin/mensajes', methods=['GET'])
-def mensajeria():  # put application's code here
-    query_parameters = request.args
-    profe = query_parameters.get('profesor')
-    conn = consultasBD.connectDB()
-    result = consultasBD.seleccionarmensajes(conn, profe)
-    consultasBD.closeBD(conn)
-    return jsonify(result)
-
-@app.route('/alumnos/apuntes', methods=['GET'])
-def get_apuntes():  # put application's code here
-    return
-
+#Marc
 @app.route('/profesores/apuntes', methods=['POST'])
 def post_apuntes():  # put application's code here
     if request.method == 'POST':
@@ -87,6 +59,76 @@ def post_apuntes():  # put application's code here
         # Retornamos una respuesta satisfactoria
         return "<h1>Archivo subido exitosamente</h1>"
 
+#Marc
+@app.route('/profesores/mensajes', methods=['GET'])
+def get_mensajes():  # put application's code here
+    return
+
+#Marc
+@app.route('/admin/mensajes', methods=['GET'])
+def mensajeria():  # put application's code here
+    query_parameters = request.args
+    profe = query_parameters.get('profesor')
+    conn = consultasBD.connectDB()
+    result = consultasBD.seleccionarmensajes(conn, profe)
+    consultasBD.closeBD(conn)
+    return jsonify(result)
+
+#Gus
+@app.route('/admin/info_alumnos', methods=['GET'])
+def get_info_alumnos():  # put application's code here
+    return
+
+#Gus
+@app.route('/admin/get_puntuacion_profes', methods=['GET'])
+def get_puntuacion_profes():  # put application's code here
+    return
+
+#Gus (falta subir imagen papi)
+@app.route('/admin/new_alumno', methods=['POST'])
+def new_alumno():
+    conn = consultasBD.connectDB()
+    nombre = request.form["nombre"]
+    edad = str(request.form["edad"])
+    pago_hecho = str(request.form["pago_hecho"])
+    tutor_legal = request.form["tutor_legal"]
+    id_grupo = str(request.form["id_grupo"])
+
+    try:
+        consultasBD.inserta_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
+        return '''<h1>Success!</h1>'''
+    except:
+        return '''<h1>Fail!</h1>'''
+
+#Gus
+@app.route('/admin/new_profesor', methods=['POST'])
+def new_profesor():  # put application's code here
+    return
+
+#Marc
+@app.route('/admin/info_profesores', methods=['GET'])
+def get_info_profesores():  # put application's code here
+    return
+
+#Gus
+@app.route('/admin/modificar_profesores', methods=['POST'])
+def modificar_profesores():  # put application's code here
+    return
+
+#Gus
+@app.route('/admin/modificar_alumnos', methods=['POST'])
+def modificar_alumnos():  # put application's code here
+    return
+
+#Marc
+@app.route('/alumnos/apuntes', methods=['GET'])
+def get_apuntes():  # put application's code here
+    return
+
+#Marc & Gus
+@app.route('/alumnos/puntuar_profesor', methods=['POST'])
+def puntuar_profesor():  # put application's code here
+    return
 
 if __name__ == '__main__':
     app.run(debug=True)
