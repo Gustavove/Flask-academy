@@ -70,7 +70,7 @@ def mensajeria():  # put application's code here
     query_parameters = request.args
     profe = query_parameters.get('profesor')
     conn = consultasBD.connectDB()
-    result = consultasBD.seleccionarmensajes(conn, profe)
+    result = consultasBD.consultar_mensajes(conn, profe)
     consultasBD.closeBD(conn)
     return jsonify(result)
 
@@ -95,7 +95,7 @@ def new_alumno():
     id_grupo = str(request.form["id_grupo"])
 
     try:
-        consultasBD.inserta_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
+        consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
         return '''<h1>Success!</h1>'''
     except:
         return '''<h1>Fail!</h1>'''
@@ -103,12 +103,12 @@ def new_alumno():
 #Gus
 @app.route('/admin/new_profesor', methods=['POST'])
 def new_profesor():  # put application's code here
-    return
-
-#Marc
-@app.route('/admin/info_profesores', methods=['GET'])
-def get_info_profesores():  # put application's code here
-    return
+    conn = consultasBD.connectDB()
+    try:
+        #consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
+        return '''<h1>Success!</h1>'''
+    except:
+        return '''<h1>Fail!</h1>'''
 
 #Gus
 @app.route('/admin/modificar_profesores', methods=['POST'])

@@ -24,7 +24,7 @@ def login(conn, username, password):
     result = c.execute(query, tofilter).fetchall()
     return result
 
-def inserta_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo):
+def insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo):
     c = conn.cursor()
     try:
         nou_alumne = (nombre, edad, pago_hecho, tutor_legal, id_grupo)
@@ -37,7 +37,18 @@ def inserta_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo):
 
     return
 
-def seleccionarmensajes(conn, profesor):
+def consultar_alumnos(conn):
+    c = conn.cursor()
+    query = "SELECT * FROM alumnos a WHERE username = ? AND password = ?"
+    c = conn.cursor()
+    tofilter = []
+    tofilter.append(username)
+    tofilter.append(password)
+    result = c.execute(query, tofilter).fetchall()
+    return result
+
+
+def consultar_mensajes(conn, profesor):
     query = "SELECT mensaje FROM mensajes m WHERE profesor = ?"
     c = conn.cursor()
     tofilter = []
