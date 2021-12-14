@@ -37,16 +37,31 @@ def insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo):
 
     return
 
-def consultar_alumnos(conn):
+def insertar_mensaje(conn, profesor, mensaje):
     c = conn.cursor()
-    query = "SELECT * FROM alumnos a WHERE username = ? AND password = ?"
-    c = conn.cursor()
-    tofilter = []
-    tofilter.append(username)
-    tofilter.append(password)
-    result = c.execute(query, tofilter).fetchall()
-    return result
+    try:
+        new_message = (profesor, mensaje)
+        query = '''INSERT INTO mensajes (profesor, mensaje) 
+        VALUES (?,?)'''
+        c.execute(query, new_message)
+        conn.commit()
+    except Error as e:
+        print(e)
 
+    return
+
+def insertar_puntuacion(conn, profesor, puntuacion):
+    c = conn.cursor()
+    try:
+        new_puntuacion = (profesor, puntuacion)
+        query = '''INSERT INTO profesores (nombre_profesor, puntuacion) 
+        VALUES (?,?)'''
+        c.execute(query, new_puntuacion)
+        conn.commit()
+    except Error as e:
+        print(e)
+
+    return
 
 def consultar_mensajes(conn, profesor):
     query = "SELECT mensaje FROM mensajes m WHERE profesor = ?"
@@ -56,3 +71,8 @@ def consultar_mensajes(conn, profesor):
     result = c.execute(query, tofilter).fetchall()
     return result
 
+def consultar_puntuaciones(conn):
+    query = "SELECT * FROM profesores p"
+    c = conn.cursor()
+    result = c.execute(query).fetchall()
+    return result
