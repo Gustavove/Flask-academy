@@ -14,6 +14,17 @@ c.execute('''
           ''')
 
 c.execute('''
+          INSERT INTO aulas (num)
+
+                VALUES
+                (1),
+                (2),
+                (3),
+                (4),
+                (5)
+          ''')
+
+c.execute('''
           INSERT INTO asignaturas (nombre)
 
                 VALUES
@@ -54,10 +65,10 @@ c.execute('''
           INSERT INTO login (username, password, tipo_usuario)
 
                 VALUES
-                ('miquelet', '12345', 'tipo1'),
-                ('paula1', 'paula123', 'tipo1'),
-                ('silvia', '12345','tipo2'),
-                ('admin', 'admin', 'tipo3')
+                ('miquelet', '12345', 'Alumno'),
+                ('paula1', 'paula123', 'Alumno'),
+                ('silvia', '12345','Profesor'),
+                ('admin', 'admin', 'Admin')
           ''')
 
 c.execute('''

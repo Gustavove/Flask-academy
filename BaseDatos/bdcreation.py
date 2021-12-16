@@ -5,7 +5,13 @@ c = conn.cursor()
 
 c.execute('''
           CREATE TABLE IF NOT EXISTS alumnos
-          ([nombre] TEXT PRIMARY KEY, [edad] INTEGER, [pago_hecho] INTEGER, [tutor_legal] TEXT, [id_grupo] INTEGER )
+          ([nombre] TEXT PRIMARY KEY, [edad] INTEGER, [pago_hecho] INTEGER, [tutor_legal] TEXT, [id_grupo] INTEGER REFERENCES grupos(id))
+          ''')
+
+
+c.execute('''
+          CREATE TABLE IF NOT EXISTS aulas
+          ([num] INTEGER)
           ''')
 
 c.execute('''
@@ -25,7 +31,7 @@ c.execute('''
 
 c.execute('''
           CREATE TABLE IF NOT EXISTS grupos
-          ([id] INTEGER , [asignatura] TEXT, [profesor] TEXT, [hora] TEXT, [ref_libro] INTEGER, [num_aula] INTEGER, PRIMARY KEY(id, asignatura, profesor) )
+          ([id] INTEGER , [asignatura] TEXT, [profesor] TEXT, [hora] TEXT, [ref_libro] INTEGER, [num_aula] INTEGER REFERENCES aulas(num), PRIMARY KEY(id, asignatura, profesor) )
           ''')
 
 c.execute('''
