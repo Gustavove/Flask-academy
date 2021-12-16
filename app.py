@@ -4,7 +4,6 @@ import os
 from flask import Flask, request, jsonify, abort, send_from_directory
 from werkzeug.utils import secure_filename
 from BaseDatos import consultasBD
-from flask_jwt_extended import create_access_token
 
 app = Flask(__name__)
 # Carpeta de archivos ingles
