@@ -44,10 +44,10 @@ c.execute('''
           INSERT INTO grupos (id, asignatura, profesor, hora, ref_libro, num_aula)
 
                 VALUES
-                ('1212', 'ingles', 'Silvia', '12:00', 0001, 01),
-                ('1111', 'matematicas', 'Pepito', '11:00', 0003, 02),
-                ('1313', 'ingles', 'Silvia', '18:00', 0001, 01),
-                ('1213', 'catalan', 'Pepito', '12:00', 0002, 04)
+                (1, 'ingles', 'Silvia', '12:00', 0001, 01),
+                (2, 'matematicas', 'Pepito', '11:00', 0003, 02),
+                (3, 'ingles', 'Silvia', '18:00', 0001, 01),
+                (4, 'catalan', 'Pepito', '12:00', 0002, 04)
           ''')
 
 c.execute('''
@@ -66,7 +66,7 @@ c.execute('''
                 VALUES
                 ('Silvia', 'Buenas, esto es una prueba'),
                 ('Pepito', 'Buenas esto es una segunta prueba'),
-                ('Silvia', 'Buenas, estoy comentandole que mi hijo no trabaja que hace en clase?')
+                ('Silvia', 'Buenas, Juan se esta portando muy mal')
           ''')
 
 

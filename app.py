@@ -1,6 +1,6 @@
 import os
 
-import self as self
+# import self as self
 from flask import Flask, request, jsonify, abort, send_from_directory
 from werkzeug.utils import secure_filename
 from BaseDatos import consultasBD
@@ -15,12 +15,12 @@ app.config['apuntes_matematicas'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/fil
 UPLOAD_DIRECTORY_Mates = "C:/Users/Marc F/PycharmProjects/flaskWS/files/matematicas"
 
 @app.route('/', methods=['GET'])
-def menu_inicial():  # put application's code here
+def menu_inicial():
     return '''<h1>¡Bienvenido a la academia de Gustavo y Marc!</h1>'''
 
 
 @app.route('/login', methods=['GET'])
-def login():  # put application's code here
+def login():
     query_parameters = request.args
     username = query_parameters.get('username')
     password = query_parameters.get('password')
@@ -28,18 +28,6 @@ def login():  # put application's code here
     result = consultasBD.login(conn, username, password)
     consultasBD.closeBD(conn)
     return jsonify(result)
-
-@app.route('/alumnos', methods=['GET'])
-def menu_alumnos():
-    return
-
-@app.route('/profesores', methods=['GET'])
-def menu_profesores():
-    return
-
-@app.route('/admin', methods=['GET'])
-def menu_administrador():
-    return
 
 #Marc
 @app.route('/profesores/apuntes', methods=['POST'])
@@ -64,8 +52,8 @@ def post_apuntes():  # put application's code here
                 #Guardamos el archivo en el directorio "Archivos PDF"
                 f.save(os.path.join(app.config['apuntes_catalan'], filename))
             # Retornamos una respuesta satisfactoria
-            return "<h1>Archivo subido exitosamente</h1>"
-    return "<h1>Ha ocurrido un error...</h1>"
+            return "Success!"
+    return "Error"
 
 #Marc
 @app.route('/profesores/mensajes', methods=['POST'])
@@ -76,9 +64,19 @@ def new_mensaje():  # put application's code here
     mensaje = request.form["mensaje"]
     try:
         consultasBD.insertar_mensaje(conn, profe, mensaje)
-        return '''<h1>Mensaje subido correctamente!</h1>'''
+        return "Success!"
     except:
-        return '''<h1>Ha habido algún problema!</h1>'''
+        return "Error"
+
+#Gustavo
+@app.route('/profesores/mis_alumnos', methods=['GET'])
+def nmis_alumnos():
+    nombre = request.args.get("nombre")
+
+    conn = consultasBD.connectDB()
+    result = consultasBD.comsulta_alumnos_profe(conn, nombre)
+    consultasBD.closeBD(conn)
+    return jsonify(result)
 
 #Marc
 @app.route('/admin/mensajes', methods=['GET'])
@@ -101,9 +99,14 @@ def delete_mensajeria():  # put application's code here
     return jsonify(result)
 
 #Gus
-@app.route('/admin/info_alumnos', methods=['GET'])
-def get_info_alumnos():  # put application's code here
-    return
+@app.route('/admin/info_alumno', methods=['GET'])
+def get_info_alumno():  # put application's code here
+     nombre = request.args.get("nombre")
+
+     conn = consultasBD.connectDB()
+     result = consultasBD.consultar_alumno(conn, nombre)
+     consultasBD.closeBD(conn)
+     return jsonify(result)
 
 #Marc
 @app.route('/admin/puntuacion_profes', methods=['GET'])
@@ -125,29 +128,42 @@ def new_alumno():
 
     try:
         consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
-        return '''<h1>Success!</h1>'''
+        consultasBD.closeBD(conn)
+        return "Success!"
     except:
-        return '''<h1>Fail!</h1>'''
+        return "Error"
 
 #Gus
 @app.route('/admin/new_profesor', methods=['POST'])
 def new_profesor():  # put application's code here
     conn = consultasBD.connectDB()
+    nombre = request.form["nombre"]
+    puntuacion = request.form["puntuacion"]
+
     try:
-        #consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
-        return '''<h1>Success!</h1>'''
+        consultasBD.insertar_profesor(conn, nombre, puntuacion)
+        consultasBD.closeBD(conn)
+        return "Success!"
+
     except:
-        return '''<h1>Fail!</h1>'''
+        return "Error"
 
 #Gus
-@app.route('/admin/modificar_profesores', methods=['POST'])
-def modificar_profesores():  # put application's code here
-    return
+@app.route('/admin/modificar_alumno', methods=['POST'])
+def modificar_alumno():
+    conn = consultasBD.connectDB()
+    nombre = request.form["nombre"]
+    edad = str(request.form["edad"])
+    pago_hecho = str(request.form["pago_hecho"])
+    tutor_legal = request.form["tutor_legal"]
+    id_grupo = str(request.form["id_grupo"])
 
-#Gus
-@app.route('/admin/modificar_alumnos', methods=['POST'])
-def modificar_alumnos():  # put application's code here
-    return
+    try:
+        consultasBD.modificar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
+        consultasBD.closeBD(conn)
+        return "Success!"
+    except:
+        return "Error"
 
 #Marc
 @app.route('/alumnos/apuntes/<path>', methods=['GET'])
@@ -160,7 +176,7 @@ def get_apuntes(path = None):  # put application's code here
     except Exception as e:
         self.log.exception(e)
         self.Error(400)
-    return '''<h1>Fail!</h1>'''
+    return "Error"
 
 #Marc & Gus
 @app.route('/alumnos/puntuar_profesor', methods=['GET'])
@@ -171,9 +187,10 @@ def puntuar_profesor():  # put application's code here
     conn = consultasBD.connectDB()
     try:
         consultasBD.insertar_puntuacion(conn, profe, nota)
-        return '''<h1>Success!</h1>'''
+        return "Success!"
     except:
-        return '''<h1>Fail!</h1>'''
+        return "Error"
+
 
 if __name__ == '__main__':
     app.run(debug=True)

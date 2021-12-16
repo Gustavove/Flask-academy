@@ -25,7 +25,7 @@ c.execute('''
 
 c.execute('''
           CREATE TABLE IF NOT EXISTS grupos
-          ([id] TEXT, [asignatura] TEXT, [profesor] TEXT, [hora] TEXT, [ref_libro] INTEGER, [num_aula] INTEGER, PRIMARY KEY(id, asignatura, profesor) )
+          ([id] INTEGER , [asignatura] TEXT, [profesor] TEXT, [hora] TEXT, [ref_libro] INTEGER, [num_aula] INTEGER, PRIMARY KEY(id, asignatura, profesor) )
           ''')
 
 c.execute('''
