@@ -26,7 +26,12 @@ def login():
     conn = consultasBD.connectDB()
     result = consultasBD.login(conn, username, password)
     consultasBD.closeBD(conn)
-    return jsonify(result)
+
+    if(len(result)== 0):
+        return 'Error'
+    else:
+        result = result[0][0]
+        return result
 
 #Marc
 @app.route('/profesores/apuntes', methods=['POST'])
@@ -73,8 +78,13 @@ def nmis_alumnos():
     nombre = request.args.get("nombre")
 
     conn = consultasBD.connectDB()
-    result = consultasBD.comsulta_alumnos_profe(conn, nombre)
+    bd_result = consultasBD.comsulta_alumnos_profe(conn, nombre)
     consultasBD.closeBD(conn)
+
+    result = []
+    for i in bd_result:
+        result.append({"Nombre":i[0], "Age":i[1], "Tutor_legal":i[2]})
+
     return jsonify(result)
 
 #Marc
@@ -83,18 +93,13 @@ def mensajeria():  # put application's code here
     query_parameters = request.args
     profe = query_parameters.get('profesor')
     conn = consultasBD.connectDB()
-    result = consultasBD.consultar_mensajes(conn, profe)
+    bd_result= consultasBD.consultar_mensajes(conn, profe)
     consultasBD.closeBD(conn)
-    return jsonify(result)
 
-#Marc
-@app.route('/admin/mensajes/eliminar', methods=['GET'])
-def delete_mensajeria():  # put application's code here
-    query_parameters = request.args
-    profe = query_parameters.get('profesor')
-    conn = consultasBD.connectDB()
-    result = consultasBD.consultar_mensajes(conn, profe)
-    consultasBD.closeBD(conn)
+    result = []
+    for i in bd_result:
+        result.append({"Mensaje":i[0]})
+
     return jsonify(result)
 
 #Gus
@@ -103,16 +108,26 @@ def get_info_alumno():  # put application's code here
      nombre = request.args.get("nombre")
 
      conn = consultasBD.connectDB()
-     result = consultasBD.consultar_alumno(conn, nombre)
+     bd_result = consultasBD.consultar_alumno(conn, nombre)
      consultasBD.closeBD(conn)
+
+     result = []
+     for i in bd_result:
+         result.append({"Nombre": i[0], "Age": i[1], "Pago hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
+
      return jsonify(result)
 
 #Marc
 @app.route('/admin/puntuacion_profes', methods=['GET'])
 def get_puntuacion_profes():  # put application's code here
     conn = consultasBD.connectDB()
-    result = consultasBD.consultar_puntuaciones(conn)
+    bd_result = consultasBD.consultar_puntuaciones(conn)
     consultasBD.closeBD(conn)
+
+    result = []
+    for i in bd_result:
+        result.append({"Profesor": i[0], "Puntuacion": i[1]})
+
     return jsonify(result)
 
 #Gus (falta subir imagen papi)
@@ -194,8 +209,13 @@ def ficheros_de_asignatura():
      asignatura = request.args.get("asignatura")
 
      conn = consultasBD.connectDB()
-     result = consultasBD.consulta_ficheros(conn, asignatura)
+     bd_result = consultasBD.consulta_ficheros(conn, asignatura)
      consultasBD.closeBD(conn)
+
+     result = []
+     for i in bd_result:
+         result.append({"Nombre_fichero": i[0], "Path": i[1]})
+
      return jsonify(result)
 
 #Gus
@@ -204,8 +224,13 @@ def mis_asignaturas():
      nombre_alumno = request.args.get("nombre_alumno")
 
      conn = consultasBD.connectDB()
-     result = consultasBD.consulta_mis_asignaturas(conn, nombre_alumno)
+     bd_result = consultasBD.consulta_mis_asignaturas(conn, nombre_alumno)
      consultasBD.closeBD(conn)
+
+     result = []
+     for i in bd_result:
+         result.append({"Asignatura": i[0]})
+
      return jsonify(result)
 
 
@@ -215,8 +240,13 @@ def mis_profes():
      nombre_alumno = request.args.get("nombre_alumno")
 
      conn = consultasBD.connectDB()
-     result = consultasBD.consulta_mis_profes(conn, nombre_alumno)
+     bd_result = consultasBD.consulta_mis_profes(conn, nombre_alumno)
      consultasBD.closeBD(conn)
+
+     result = []
+     for i in bd_result:
+         result.append({"Profesor": i[0]})
+
      return jsonify(result)
 
 
