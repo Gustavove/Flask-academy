@@ -165,13 +165,13 @@ def modificar_alumno():
         return "Error"
 
 #Marc
-@app.route('/alumnos/apuntes/<path>', methods=['GET'])
-def get_apuntes(path = None):  # put application's code here
-    if path is None:
+@app.route('/alumnos/apuntes/<path>/<file>', methods=['GET'])
+def get_apuntes(path = None, file = None):  # put application's code here
+    if path is None or file is None:
         return "Error"
     try:
         #if path == "matematicas" or path == "catalan" or path == "ingles":
-        return send_from_directory(FILES_DIRECTORY, path, as_attachment=True)
+        return send_from_directory(FILES_DIRECTORY, path + '/' + file, as_attachment=True)
     except Exception as e:
         return "Error"
 
