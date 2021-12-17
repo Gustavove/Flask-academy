@@ -188,6 +188,18 @@ def puntuar_profesor():  # put application's code here
     except:
         return "Error"
 
+#Gus
+@app.route('/alumnos/ficheros_de_asignatura', methods=['GET'])
+def ficheros_de_asignatura():
+     asignatura = request.args.get("asignatura")
+
+     conn = consultasBD.connectDB()
+     result = consultasBD.consulta_ficheros(conn, asignatura)
+     consultasBD.closeBD(conn)
+     return jsonify(result)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

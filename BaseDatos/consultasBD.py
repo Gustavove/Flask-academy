@@ -127,4 +127,13 @@ def comsulta_alumnos_profe(conn, nombre_profe):
     result = c.execute(query, tofilter).fetchall()
     return result
 
+def consulta_ficheros(conn, asignatura):
+
+    query = ''' SELECT nombre_fichero, path FROM ficheros WHERE asignatura = ?'''
+    c = conn.cursor()
+    tofilter = []
+    tofilter.append(asignatura)
+    result = c.execute(query, tofilter).fetchall()
+    return result
+
 
