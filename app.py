@@ -11,7 +11,7 @@ app.config['apuntes_ingles'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/in
 app.config['apuntes_catalan'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/catalan'
 # Carpeta de archivos matematicas
 app.config['apuntes_matematicas'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/matematicas'
-UPLOAD_DIRECTORY_Mates = "C:/Users/Marc F/PycharmProjects/flaskWS/files/matematicas"
+FILES_DIRECTORY = "C:/Users/Marc F/PycharmProjects/flaskWS/files"
 
 @app.route('/', methods=['GET'])
 def menu_inicial():
@@ -171,7 +171,7 @@ def get_apuntes(path = None):  # put application's code here
         return "Error"
     try:
         #if path == "matematicas" or path == "catalan" or path == "ingles":
-        return send_from_directory(UPLOAD_DIRECTORY_Mates, path, as_attachment=True)
+        return send_from_directory(FILES_DIRECTORY, path, as_attachment=True)
     except Exception as e:
         return "Error"
 
