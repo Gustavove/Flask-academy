@@ -84,7 +84,7 @@ def consultar_mensajes(conn, profesor):
     result = c.execute(query, tofilter).fetchall()
     return result
 
-def consultar_puntuaciones(conn):
+def consultar_profesores(conn):
     query = "SELECT * FROM profesores p"
     c = conn.cursor()
     result = c.execute(query).fetchall()
@@ -97,6 +97,14 @@ def consultar_alumno(conn, nombre):
     tofilter = []
     tofilter.append(nombre)
     result = c.execute(query, tofilter).fetchall()
+    return result
+
+
+#Gastavo
+def consultar_alumnos(conn):
+    query = "SELECT * FROM alumnos a"
+    c = conn.cursor()
+    result = c.execute(query).fetchall()
     return result
 
 #Gustavo

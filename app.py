@@ -117,11 +117,39 @@ def get_info_alumno():  # put application's code here
 
      return jsonify(result)
 
+#Gus
+@app.route('/admin/lista_alumnos', methods=['GET'])
+def get_lista_alumnos():
+     conn = consultasBD.connectDB()
+     bd_result = consultasBD.consultar_alumnos(conn)
+     consultasBD.closeBD(conn)
+
+     result = []
+     for i in bd_result:
+         result.append({"Nombre": i[0], "Age": i[1], "Pago hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
+
+     return jsonify(result)
+
+#Marc
+@app.route('/admin/lista_profes', methods=['GET'])
+def get_lista_profes():
+    conn = consultasBD.connectDB()
+    bd_result = consultasBD.consultar_profesores(conn)
+    consultasBD.closeBD(conn)
+
+    result = []
+    for i in bd_result:
+        result.append({"Profesor": i[0], "Puntuacion": i[1]})
+
+    return jsonify(result)
+
+
+
 #Marc
 @app.route('/admin/puntuacion_profes', methods=['GET'])
-def get_puntuacion_profes():  # put application's code here
+def get_puntuacion_profes():
     conn = consultasBD.connectDB()
-    bd_result = consultasBD.consultar_puntuaciones(conn)
+    bd_result = consultasBD.consultar_profesores(conn)
     consultasBD.closeBD(conn)
 
     result = []
@@ -136,9 +164,9 @@ def new_alumno():
     conn = consultasBD.connectDB()
     nombre = request.form["nombre"]
     edad = str(request.form["edad"])
-    pago_hecho = str(request.form["pago_hecho"])
+    pago_hecho = request.form["pago_hecho"]
     tutor_legal = request.form["tutor_legal"]
-    id_grupo = str(request.form["id_grupo"])
+    id_grupo = request.form["id_grupo"]
 
     try:
         consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
@@ -149,11 +177,13 @@ def new_alumno():
 
 #Gus
 @app.route('/admin/new_profesor', methods=['POST'])
-def new_profesor():  # put application's code here
+def new_profesor():
     conn = consultasBD.connectDB()
     nombre = request.form["nombre"]
     puntuacion = request.form["puntuacion"]
 
+    print(nombre)
+    print(puntuacion)
     try:
         consultasBD.insertar_profesor(conn, nombre, puntuacion)
         consultasBD.closeBD(conn)
