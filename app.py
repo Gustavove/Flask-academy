@@ -198,7 +198,26 @@ def ficheros_de_asignatura():
      consultasBD.closeBD(conn)
      return jsonify(result)
 
+#Gus
+@app.route('/alumnos/mis_asignaturas', methods=['GET'])
+def mis_asignaturas():
+     nombre_alumno = request.args.get("nombre_alumno")
 
+     conn = consultasBD.connectDB()
+     result = consultasBD.consulta_mis_asignaturas(conn, nombre_alumno)
+     consultasBD.closeBD(conn)
+     return jsonify(result)
+
+
+#Gus
+@app.route('/alumnos/mis_profes', methods=['GET'])
+def mis_profes():
+     nombre_alumno = request.args.get("nombre_alumno")
+
+     conn = consultasBD.connectDB()
+     result = consultasBD.consulta_mis_profes(conn, nombre_alumno)
+     consultasBD.closeBD(conn)
+     return jsonify(result)
 
 
 if __name__ == '__main__':

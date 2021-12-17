@@ -136,4 +136,26 @@ def consulta_ficheros(conn, asignatura):
     result = c.execute(query, tofilter).fetchall()
     return result
 
+def consulta_mis_asignaturas(conn, nombre_alumno):
+
+    query = ''' SELECT m.nombre_asignatura FROM alumnos a, matricula m WHERE a.nombre = ? AND m.nombre_alumno=?'''
+    c = conn.cursor()
+    consultores = (nombre_alumno, nombre_alumno)
+
+    result = c.execute(query, consultores).fetchall()
+    return result
+
+def consulta_mis_profes(conn, nombre_alumno):
+
+    query = ''' SELECT g.profesor FROM alumnos a, grupos g WHERE a.nombre = ? AND a.id_grupo = g.id'''
+    c = conn.cursor()
+    tofilter = []
+    tofilter.append(nombre_alumno)
+
+    result = c.execute(query, tofilter).fetchall()
+    return result
+
+
+
+
 
