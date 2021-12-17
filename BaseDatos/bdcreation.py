@@ -44,5 +44,10 @@ c.execute('''
           ([profesor] TEXT, [mensaje] TEXT)
           ''')
 
+c.execute('''
+          CREATE TABLE IF NOT EXISTS ficheros
+          ([asignatura] TEXT REFERENCES asignaturas(nombre), [nombre_fichero] TEXT, [path] TEXT)
+          ''')
+
 
 conn.commit()

@@ -80,5 +80,14 @@ c.execute('''
                 ('Silvia', 'Buenas, Juan se esta portando muy mal')
           ''')
 
+c.execute('''
+          INSERT INTO ficheros (asignatura, nombre_fichero, path)
+
+                VALUES
+                ('matematicas', 'derivadas', 'derivadas.txt'),
+                ('catalan', 'pronomsfebles', 'pronomsfebles.txt'),
+                ('ingles', 'exercices', 'exercices.txt')
+          ''')
+
 
 conn.commit()

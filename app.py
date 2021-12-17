@@ -1,6 +1,5 @@
 import os
 
-#import self as self
 from flask import Flask, request, jsonify, abort, send_from_directory
 from werkzeug.utils import secure_filename
 from BaseDatos import consultasBD
@@ -169,14 +168,12 @@ def modificar_alumno():
 @app.route('/alumnos/apuntes/<path>', methods=['GET'])
 def get_apuntes(path = None):  # put application's code here
     if path is None:
-        self.Error(400)
+        return "Error"
     try:
         #if path == "matematicas" or path == "catalan" or path == "ingles":
         return send_from_directory(UPLOAD_DIRECTORY_Mates, path, as_attachment=True)
     except Exception as e:
-        self.log.exception(e)
-        self.Error(400)
-    return "Error"
+        return "Error"
 
 #Marc & Gus
 @app.route('/alumnos/puntuar_profesor', methods=['GET'])
