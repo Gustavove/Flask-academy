@@ -113,7 +113,7 @@ def get_info_alumno():  # put application's code here
 
      result = []
      for i in bd_result:
-         result.append({"Nombre": i[0], "Age": i[1], "Pago hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
+         result.append({"Nombre": i[0], "Age": i[1], "Pago_hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
 
      return jsonify(result)
 
@@ -126,7 +126,7 @@ def get_lista_alumnos():
 
      result = []
      for i in bd_result:
-         result.append({"Nombre": i[0], "Age": i[1], "Pago hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
+         result.append({"Nombre": i[0], "Age": i[1], "Pago_hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
 
      return jsonify(result)
 

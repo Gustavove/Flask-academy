@@ -67,7 +67,7 @@ c.execute('''
                 VALUES
                 ('miquelet', '12345', 'Alumno'),
                 ('paula1', 'paula123', 'Alumno'),
-                ('silvia', '12345','Profesor'),
+                ('Silvia', '12345','Profesor'),
                 ('admin', 'admin', 'Admin')
           ''')
 
