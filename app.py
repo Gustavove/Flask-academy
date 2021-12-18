@@ -151,15 +151,14 @@ def new_alumno():
     tutor_legal = request.form["tutor_legal"]
     id_grupo = request.form["id_grupo"]
 
-    print(id_grupo)
-
     foto = request.form["foto"]
 
     try:
         #Guardamos la imagen del tutor_legal
-        image_64_decode = base64.decodebytes(foto.encode(encoding="utf-8"))
+        foto = foto.encode('utf-8')
+        image_64_encode = base64.decodebytes(foto)
         image_result = open('./fotos_tutores/'+ tutor_legal + '.jpg', 'wb')
-        image_result.write(image_64_decode)
+        image_result.write(image_64_encode)
 
         consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
         consultasBD.closeBD(conn)
@@ -287,9 +286,9 @@ def imagen_tutor():
 
     image = open('./fotos_tutores/' + bd_result[0][0] + '.jpg', 'rb')
     image_read = image.read()
-    image_64_encode = base64.encodebytes(image_read)
+    image_64_encode = base64.b64encode(image_read)
 
-    return image_64_encode
+    return image_64_encode.decode('utf-8')
 
 
 if __name__ == '__main__':
