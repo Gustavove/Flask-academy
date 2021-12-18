@@ -164,6 +164,15 @@ def consulta_mis_profes(conn, nombre_alumno):
     return result
 
 
+#Gastavo
+def consultar_tutor(conn, nombre):
+    query = "SELECT tutor_legal FROM alumnos a WHERE nombre = ?"
+    c = conn.cursor()
+    tofilter = []
+    tofilter.append(nombre)
+    result = c.execute(query, tofilter).fetchall()
+    return result
+
 
 
 

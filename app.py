@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from BaseDatos import consultasBD
 import base64
 
+
 app = Flask(__name__)
 # Carpeta de archivos ingles
 app.config['apuntes_ingles'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/ingles'
@@ -13,6 +14,7 @@ app.config['apuntes_catalan'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/c
 # Carpeta de archivos matematicas
 app.config['apuntes_matematicas'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/matematicas'
 FILES_DIRECTORY = "C:/Users/Marc F/PycharmProjects/flaskWS/files"
+
 
 @app.route('/', methods=['GET'])
 def menu_inicial():
@@ -28,37 +30,12 @@ def login():
     result = consultasBD.login(conn, username, password)
     consultasBD.closeBD(conn)
 
-    if(len(result)== 0):
+    if (len(result)== 0):
         return 'Error'
     else:
         result = result[0][0]
         return result
 
-#Marc
-@app.route('/profesores/apuntes', methods=['POST'])
-def post_apuntes():  # put application's code here
-    if request.method == 'POST':
-        query_parameters = request.args
-        asig = query_parameters.get('asignatura')
-        # obtenemos el archivo del input "archivo"
-        f = request.files['archivo']
-        filename = secure_filename(f.filename)
-        if "/" in filename:
-            # Return 400 BAD REQUEST
-            abort(400, "no subdirectories allowed")
-        else:
-            if asig == 'matematicas':
-                #Guardamos el archivo en el directorio "Archivos PDF"
-                f.save(os.path.join(app.config['apuntes_matematicas'], filename))
-            elif asig == 'ingles':
-                #Guardamos el archivo en el directorio "Archivos PDF"
-                f.save(os.path.join(app.config['apuntes_ingles'], filename))
-            elif asig == 'catalan':
-                #Guardamos el archivo en el directorio "Archivos PDF"
-                f.save(os.path.join(app.config['apuntes_catalan'], filename))
-            # Retornamos una respuesta satisfactoria
-            return "Success!"
-    return "Error"
 
 #Marc
 @app.route('/profesores/mensajes', methods=['POST'])
@@ -72,6 +49,7 @@ def new_mensaje():  # put application's code here
         return "Success!"
     except:
         return "Error"
+
 
 #Gustavo
 @app.route('/profesores/mis_alumnos', methods=['GET'])
@@ -88,6 +66,7 @@ def nmis_alumnos():
 
     return jsonify(result)
 
+
 #Marc
 @app.route('/admin/mensajes', methods=['GET'])
 def mensajeria():  # put application's code here
@@ -103,33 +82,36 @@ def mensajeria():  # put application's code here
 
     return jsonify(result)
 
+
 #Gus
 @app.route('/admin/info_alumno', methods=['GET'])
 def get_info_alumno():  # put application's code here
-     nombre = request.args.get("nombre")
+    nombre = request.args.get("nombre")
 
-     conn = consultasBD.connectDB()
-     bd_result = consultasBD.consultar_alumno(conn, nombre)
-     consultasBD.closeBD(conn)
+    conn = consultasBD.connectDB()
+    bd_result = consultasBD.consultar_alumno(conn, nombre)
+    consultasBD.closeBD(conn)
 
-     result = []
-     for i in bd_result:
-         result.append({"Nombre": i[0], "Age": i[1], "Pago_hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
+    result = []
+    for i in bd_result:
+        result.append({"Nombre": i[0], "Age": i[1], "Pago_hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
 
-     return jsonify(result)
+    return jsonify(result)
+
 
 #Gus
 @app.route('/admin/lista_alumnos', methods=['GET'])
 def get_lista_alumnos():
-     conn = consultasBD.connectDB()
-     bd_result = consultasBD.consultar_alumnos(conn)
-     consultasBD.closeBD(conn)
+    conn = consultasBD.connectDB()
+    bd_result = consultasBD.consultar_alumnos(conn)
+    consultasBD.closeBD(conn)
 
-     result = []
-     for i in bd_result:
-         result.append({"Nombre": i[0], "Age": i[1], "Pago_hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
+    result = []
+    for i in bd_result:
+        result.append({"Nombre": i[0], "Age": i[1], "Pago_hecho": i[2], "Tutor_legal": i[3], "Id_grupo": i[4]})
 
-     return jsonify(result)
+    return jsonify(result)
+
 
 #Marc
 @app.route('/admin/lista_profes', methods=['GET'])
@@ -159,7 +141,7 @@ def get_puntuacion_profes():
 
     return jsonify(result)
 
-#Gus (falta subir imagen papi)
+
 @app.route('/admin/new_alumno', methods=['POST'])
 def new_alumno():
     conn = consultasBD.connectDB()
@@ -169,12 +151,14 @@ def new_alumno():
     tutor_legal = request.form["tutor_legal"]
     id_grupo = request.form["id_grupo"]
 
+    print(id_grupo)
+
     foto = request.form["foto"]
 
     try:
         #Guardamos la imagen del tutor_legal
-        image_64_decode = base64.decodebytes(foto)
-        image_result = open(tutor_legal + '.jpg', 'wb')  # create a writable image and write the decoding result
+        image_64_decode = base64.decodebytes(foto.encode(encoding="utf-8"))
+        image_result = open('./fotos_tutores/'+ tutor_legal + '.jpg', 'wb')
         image_result.write(image_64_decode)
 
         consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
@@ -182,6 +166,7 @@ def new_alumno():
         return "Success!"
     except:
         return "Error"
+
 
 #Gus
 @app.route('/admin/new_profesor', methods=['POST'])
@@ -200,6 +185,7 @@ def new_profesor():
     except:
         return "Error"
 
+
 #Gus
 @app.route('/admin/modificar_alumno', methods=['POST'])
 def modificar_alumno():
@@ -217,6 +203,7 @@ def modificar_alumno():
     except:
         return "Error"
 
+
 #Marc
 @app.route('/alumnos/apuntes/<path>/<file>', methods=['GET'])
 def get_apuntes(path = None, file = None):  # put application's code here
@@ -227,6 +214,7 @@ def get_apuntes(path = None, file = None):  # put application's code here
         return send_from_directory(FILES_DIRECTORY, path + '/' + file, as_attachment=True)
     except Exception as e:
         return "Error"
+
 
 #Marc & Gus
 @app.route('/alumnos/puntuar_profesor', methods=['GET'])
@@ -241,51 +229,67 @@ def puntuar_profesor():  # put application's code here
     except:
         return "Error"
 
+
 #Gus
 @app.route('/alumnos/ficheros_de_asignatura', methods=['GET'])
 def ficheros_de_asignatura():
-     asignatura = request.args.get("asignatura")
+    asignatura = request.args.get("asignatura")
 
-     conn = consultasBD.connectDB()
-     bd_result = consultasBD.consulta_ficheros(conn, asignatura)
-     consultasBD.closeBD(conn)
+    conn = consultasBD.connectDB()
+    bd_result = consultasBD.consulta_ficheros(conn, asignatura)
+    consultasBD.closeBD(conn)
 
-     result = []
-     for i in bd_result:
-         result.append({"Nombre_fichero": i[0], "Path": i[1]})
+    result = []
+    for i in bd_result:
+        result.append({"Nombre_fichero": i[0], "Path": i[1]})
 
-     return jsonify(result)
+    return jsonify(result)
+
 
 #Gus
 @app.route('/alumnos/mis_asignaturas', methods=['GET'])
 def mis_asignaturas():
-     nombre_alumno = request.args.get("nombre_alumno")
+    nombre_alumno = request.args.get("nombre_alumno")
 
-     conn = consultasBD.connectDB()
-     bd_result = consultasBD.consulta_mis_asignaturas(conn, nombre_alumno)
-     consultasBD.closeBD(conn)
+    conn = consultasBD.connectDB()
+    bd_result = consultasBD.consulta_mis_asignaturas(conn, nombre_alumno)
+    consultasBD.closeBD(conn)
 
-     result = []
-     for i in bd_result:
-         result.append({"Asignatura": i[0]})
+    result = []
+    for i in bd_result:
+        result.append({"Asignatura": i[0]})
 
-     return jsonify(result)
+    return jsonify(result)
 
 
 #Gus
 @app.route('/alumnos/mis_profes', methods=['GET'])
 def mis_profes():
-     nombre_alumno = request.args.get("nombre_alumno")
+    nombre_alumno = request.args.get("nombre_alumno")
 
-     conn = consultasBD.connectDB()
-     bd_result = consultasBD.consulta_mis_profes(conn, nombre_alumno)
-     consultasBD.closeBD(conn)
+    conn = consultasBD.connectDB()
+    bd_result = consultasBD.consulta_mis_profes(conn, nombre_alumno)
+    consultasBD.closeBD(conn)
 
-     result = []
-     for i in bd_result:
-         result.append({"Profesor": i[0]})
+    result = []
+    for i in bd_result:
+        result.append({"Profesor": i[0]})
 
-     return jsonify(result)
+    return jsonify(result)
+
+
+@app.route('/admin/descargar_imagen_tutor', methods=['GET'])
+def imagen_tutor():
+    nombre_alumno = request.args.get("nombre")
+
+    conn = consultasBD.connectDB()
+    bd_result = consultasBD.consultar_tutor(conn, nombre_alumno)
+
+    image = open('./fotos_tutores/' + bd_result[0][0] + '.jpg', 'rb')
+    image_read = image.read()
+    image_64_encode = base64.encodebytes(image_read)
+
+    return image_64_encode
 
 
 if __name__ == '__main__':
