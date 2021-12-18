@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, jsonify, abort, send_from_directory
 from werkzeug.utils import secure_filename
 from BaseDatos import consultasBD
+import base64
 
 app = Flask(__name__)
 # Carpeta de archivos ingles
@@ -168,7 +169,14 @@ def new_alumno():
     tutor_legal = request.form["tutor_legal"]
     id_grupo = request.form["id_grupo"]
 
+    foto = request.form["foto"]
+
     try:
+        #Guardamos la imagen del tutor_legal
+        image_64_decode = base64.decodebytes(foto)
+        image_result = open(tutor_legal + '.jpg', 'wb')  # create a writable image and write the decoding result
+        image_result.write(image_64_decode)
+
         consultasBD.insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo)
         consultasBD.closeBD(conn)
         return "Success!"
