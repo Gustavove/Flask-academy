@@ -65,8 +65,8 @@ c.execute('''
           INSERT INTO login (username, password, tipo_usuario)
 
                 VALUES
-                ('miquelet', '12345', 'Alumno'),
-                ('paula1', 'paula123', 'Alumno'),
+                ('Mike', '12345', 'Alumno'),
+                ('Paula', 'paula123', 'Alumno'),
                 ('Silvia', '12345','Profesor'),
                 ('admin', 'admin', 'Admin')
           ''')
