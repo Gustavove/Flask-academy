@@ -11,7 +11,7 @@ c.execute('''
 
 c.execute('''
           CREATE TABLE IF NOT EXISTS aulas
-          ([num] INTEGER)
+          ([num] INTEGER PRIMARY KEY)
           ''')
 
 c.execute('''

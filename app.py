@@ -37,7 +37,7 @@ def login():
         return result
 
 
-#Marc
+
 @app.route('/profesores/mensajes', methods=['POST'])
 def new_mensaje():  # put application's code here
     conn = consultasBD.connectDB()
@@ -51,7 +51,7 @@ def new_mensaje():  # put application's code here
         return "Error"
 
 
-#Gustavo
+
 @app.route('/profesores/mis_alumnos', methods=['GET'])
 def nmis_alumnos():
     nombre = request.args.get("nombre")
@@ -67,7 +67,7 @@ def nmis_alumnos():
     return jsonify(result)
 
 
-#Marc
+
 @app.route('/admin/mensajes', methods=['GET'])
 def mensajeria():  # put application's code here
     query_parameters = request.args
@@ -83,7 +83,7 @@ def mensajeria():  # put application's code here
     return jsonify(result)
 
 
-#Gus
+
 @app.route('/admin/info_alumno', methods=['GET'])
 def get_info_alumno():  # put application's code here
     nombre = request.args.get("nombre")
@@ -99,7 +99,7 @@ def get_info_alumno():  # put application's code here
     return jsonify(result)
 
 
-#Gus
+
 @app.route('/admin/lista_alumnos', methods=['GET'])
 def get_lista_alumnos():
     conn = consultasBD.connectDB()
@@ -113,7 +113,7 @@ def get_lista_alumnos():
     return jsonify(result)
 
 
-#Marc
+
 @app.route('/admin/lista_profes', methods=['GET'])
 def get_lista_profes():
     conn = consultasBD.connectDB()
@@ -128,7 +128,7 @@ def get_lista_profes():
 
 
 
-#Marc
+
 @app.route('/admin/puntuacion_profes', methods=['GET'])
 def get_puntuacion_profes():
     conn = consultasBD.connectDB()
@@ -167,7 +167,7 @@ def new_alumno():
         return "Error"
 
 
-#Gus
+
 @app.route('/admin/new_profesor', methods=['POST'])
 def new_profesor():
     conn = consultasBD.connectDB()
@@ -185,7 +185,7 @@ def new_profesor():
         return "Error"
 
 
-#Gus
+
 @app.route('/admin/modificar_alumno', methods=['POST'])
 def modificar_alumno():
     conn = consultasBD.connectDB()
@@ -203,7 +203,7 @@ def modificar_alumno():
         return "Error"
 
 
-#Marc
+
 @app.route('/alumnos/apuntes/<path>/<file>', methods=['GET'])
 def get_apuntes(path = None, file = None):  # put application's code here
     if path is None or file is None:
@@ -215,7 +215,7 @@ def get_apuntes(path = None, file = None):  # put application's code here
         return "Error"
 
 
-#Marc & Gus
+
 @app.route('/alumnos/puntuar_profesor', methods=['GET'])
 def puntuar_profesor():  # put application's code here
     query_parameters = request.args
@@ -231,7 +231,7 @@ def puntuar_profesor():  # put application's code here
         return "Error"
 
 
-#Gus
+
 @app.route('/alumnos/ficheros_de_asignatura', methods=['GET'])
 def ficheros_de_asignatura():
     asignatura = request.args.get("asignatura")
@@ -247,7 +247,7 @@ def ficheros_de_asignatura():
     return jsonify(result)
 
 
-#Gus
+
 @app.route('/alumnos/mis_asignaturas', methods=['GET'])
 def mis_asignaturas():
     nombre_alumno = request.args.get("nombre_alumno")
@@ -263,7 +263,7 @@ def mis_asignaturas():
     return jsonify(result)
 
 
-#Gus
+
 @app.route('/alumnos/mis_profes', methods=['GET'])
 def mis_profes():
     nombre_alumno = request.args.get("nombre_alumno")
