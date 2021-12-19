@@ -5,7 +5,7 @@ import pandas as pd
 def connectDB():
     conn = None
     try:
-        conn = sqlite3.connect('/home/gustavo/PycharmProjects/flaskWB/BaseDatos/academiaBD')
+        conn = sqlite3.connect('/home/alumne/PycharmProjects/flaskWB/BaseDatos/academiaBD')
     except Error as e:
         print(e)
 
@@ -66,15 +66,22 @@ def insertar_mensaje(conn, profesor, mensaje):
 def insertar_puntuacion(conn, profesor, puntuacion):
     c = conn.cursor()
     try:
-        new_puntuacion = (profesor, puntuacion)
-        query = '''INSERT INTO profesores (nombre_profesor, puntuacion) 
-        VALUES (?,?)'''
-        c.execute(query, new_puntuacion)
+        modificadores = (puntuacion, profesor)
+        query = " UPDATE profesores SET puntuacion = ? WHERE nombre_profesor = ?"
+        c.execute(query, modificadores)
         conn.commit()
     except Error as e:
         print(e)
 
     return
+
+def consultar_puntuacion(conn, profesor):
+    query = "SELECT puntuacion FROM profesores p WHERE nombre_profesor = ?"
+    c = conn.cursor()
+    tofilter = []
+    tofilter.append(profesor)
+    result = c.execute(query, tofilter).fetchone()[0]
+    return result
 
 def consultar_mensajes(conn, profesor):
     query = "SELECT mensaje FROM mensajes m WHERE profesor = ?"
@@ -173,6 +180,17 @@ def consultar_tutor(conn, nombre):
     result = c.execute(query, tofilter).fetchall()
     return result
 
+def insertar_fichero(conn, asignatura, nombre, path):
+    c = conn.cursor()
+    try:
+        new_puntuacion = (asignatura, nombre, path)
+        query = '''INSERT INTO ficheros (asignatura, nombre_fichero, path) 
+        VALUES (?,?, ?)'''
+        c.execute(query, new_puntuacion)
+        conn.commit()
+    except Error as e:
+        print(e)
 
+    return
 
 

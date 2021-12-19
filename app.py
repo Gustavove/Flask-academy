@@ -13,7 +13,7 @@ app.config['apuntes_ingles'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/in
 app.config['apuntes_catalan'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/catalan'
 # Carpeta de archivos matematicas
 app.config['apuntes_matematicas'] = 'C:/Users/Marc F/PycharmProjects/flaskWS/files/matematicas'
-FILES_DIRECTORY = "C:/Users/Marc F/PycharmProjects/flaskWS/files"
+FILES_DIRECTORY = "/home/alumne/PycharmProjects/flaskWB/files"
 
 
 @app.route('/', methods=['GET'])
@@ -220,10 +220,12 @@ def get_apuntes(path = None, file = None):  # put application's code here
 def puntuar_profesor():  # put application's code here
     query_parameters = request.args
     profe = query_parameters.get('profesor')
-    nota = query_parameters.get('nota')
+    nota = float(query_parameters.get('puntuacion'))
     conn = consultasBD.connectDB()
     try:
-        consultasBD.insertar_puntuacion(conn, profe, nota)
+        notamitja = consultasBD.consultar_puntuacion(conn, profe)
+        notamitja = (notamitja + nota)/2
+        consultasBD.insertar_puntuacion(conn, profe, notamitja)
         return "Success!"
     except:
         return "Error"
@@ -290,6 +292,25 @@ def imagen_tutor():
 
     return image_64_encode.decode('utf-8')
 
+@app.route('/profesores/subir_archivo', methods=['POST'])
+def subir_apuntes():
+    conn = consultasBD.connectDB()
+    asignatura = request.form["asignatura"]
+    nombre = request.form["nombre"]
+    filename = request.form["filename"]
+    fichero = request.form["fichero"]
 
+    try:
+        #Guardamos la imagen del tutor_legal
+        fichero = fichero.encode('utf-8')
+        image_64_encode = base64.decodebytes(fichero)
+        image_result = open('./files/' + asignatura + '/' + filename, 'wb')
+        image_result.write(image_64_encode)
+
+        consultasBD.insertar_fichero(conn, asignatura, nombre, filename)
+        consultasBD.closeBD(conn)
+        return "Success!"
+    except:
+        return "Error"
 if __name__ == '__main__':
     app.run(debug=True)
