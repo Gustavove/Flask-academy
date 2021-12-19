@@ -24,7 +24,7 @@ def login(conn, username, password):
     result = c.execute(query, tofilter).fetchall()
     return result
 
-#Gustavo
+
 def insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo):
     c = conn.cursor()
     try:
@@ -36,7 +36,7 @@ def insertar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo):
     except Error as e:
         print(e)
 
-#Gustavo
+
 def insertar_profesor(conn, nombre, puntuacion):
     c = conn.cursor()
     try:
@@ -97,7 +97,7 @@ def consultar_profesores(conn):
     result = c.execute(query).fetchall()
     return result
 
-#Gastavo
+
 def consultar_alumno(conn, nombre):
     query = "SELECT * FROM alumnos a WHERE nombre = ?"
     c = conn.cursor()
@@ -107,14 +107,13 @@ def consultar_alumno(conn, nombre):
     return result
 
 
-#Gastavo
 def consultar_alumnos(conn):
     query = "SELECT * FROM alumnos a"
     c = conn.cursor()
     result = c.execute(query).fetchall()
     return result
 
-#Gustavo
+
 def modificar_alumno(conn, nombre, edad, pago_hecho, tutor_legal, id_grupo):
 
     modificadores = (edad, pago_hecho, tutor_legal, id_grupo, nombre)
@@ -171,7 +170,7 @@ def consulta_mis_profes(conn, nombre_alumno):
     return result
 
 
-#Gastavo
+
 def consultar_tutor(conn, nombre):
     query = "SELECT tutor_legal FROM alumnos a WHERE nombre = ?"
     c = conn.cursor()
