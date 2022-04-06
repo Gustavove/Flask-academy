@@ -11,7 +11,8 @@ Flask-academy is an API RESTful that provides management services for members of
 [![arquitectura.jpg](https://i.postimg.cc/MH5p1XPp/arquitectura.jpg)](https://postimg.cc/jnWTbqYp)
 
 ## Data base design
-[base-de-datos.jpg](https://postimg.cc/0KgLSYwN)
+
+[![base-de-datos.jpg](https://i.postimg.cc/D0mFt5f1/base-de-datos.jpg)](https://postimg.cc/0KgLSYwN)
 
 ## Technologies
 
