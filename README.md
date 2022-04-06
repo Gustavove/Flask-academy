@@ -16,18 +16,8 @@ Flask-academy is an API RESTful that provides management services for members of
 * [Flask](https://flask.palletsprojects.com/en/2.1.x/)
 * SQL3
 
-## Instalación
+## Installation
 
-
-### Data base
-
-```bash
-pyhton3 bdcreation.py
-```
-
-```bash
-pyhton3 consultasBD.py
-```
 
 ### Data base
 
