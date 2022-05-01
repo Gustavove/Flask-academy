@@ -8,19 +8,20 @@ Flask-academy is an API REST that provides management services for members of th
 
 ## Architecture
 
-[![arquitectura.jpg](https://i.postimg.cc/xT5cZBGH/arquitectura.jpg)](https://postimg.cc/3dy84ScJ)
+[![arquitectura.jpg](https://i.postimg.cc/MH5p1XPp/arquitectura.jpg)](https://postimg.cc/jnWTbqYp)
 
 ## Data base design
 
-[![base-de-datos.jpg](https://i.postimg.cc/P5BhVM7Y/base-de-datos.jpg)](https://postimg.cc/QFkRHchd)
+[![base-de-datos.jpg](https://i.postimg.cc/D0mFt5f1/base-de-datos.jpg)](https://postimg.cc/0KgLSYwN)
 
 ## Technologies
 
 * [Pyhton](https://www.python.org/downloads/)
 * [Flask](https://flask.palletsprojects.com/en/2.1.x/)
 * SQL3
-* [Unity](https://unity.com/es)
-* And more
+
+## Installation
+
 
 ### Data base
 
